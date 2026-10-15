@@ -3,16 +3,134 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Little Guy Games</title>
+<title>Duckdoku Blast: Sudoku meets Battleship</title>
+<meta name="description" content="Duckdoku Blast is a free logic puzzle game: part Sudoku, part Battleship, all ducks. Every color block hides exactly one ship. Find the fleet with logic, not luck.">
+<meta property="og:title" content="Duckdoku Blast: Sudoku meets Battleship">
+<meta property="og:description" content="A free logic puzzle game. Every color block hides exactly one ship. Find the fleet with logic, not luck.">
+<meta property="og:image" content="https://jvea03.github.io/img/feature.jpg">
+<meta property="og:url" content="https://jvea03.github.io/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
 <style>
-  body { font-family: system-ui, sans-serif; background: #eaf6ff; color: #1f3a4d; margin: 0; padding: 48px 16px; text-align: center; }
-  h1 { margin: 0 0 8px; }
-  a { color: #1a73e8; }
+  :root {
+    --ink: #10304f;
+    --muted: #4b6a85;
+    --gold: #ffd12e;
+    --sky-top: #e9f6ff;
+    --sky-bottom: #9fd5f8;
+    --sea: #2f8fe0;
+    --sea-deep: #1a5fae;
+    --card: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 55%, var(--sea) 100%);
+    min-height: 100vh;
+  }
+  a { color: var(--sea-deep); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 16px; }
+
+  /* hero */
+  .hero { text-align: center; padding: 40px 0 24px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: -40% -20% auto; height: 140%;
+    background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,240,180,.35) 0deg 9deg, transparent 9deg 22.5deg);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0 30%, transparent 62%);
+            mask-image: radial-gradient(circle at 50% 50%, #000 0 30%, transparent 62%);
+    pointer-events: none;
+  }
+  .hero > * { position: relative; }
+  .logo { width: min(520px, 88vw); height: auto; filter: drop-shadow(0 8px 14px rgba(16,48,79,.25)); }
+  .tagline {
+    display: inline-block; margin: 6px 0 14px; padding: 8px 22px;
+    background: var(--gold); color: var(--ink); border: 3px solid var(--ink); border-radius: 999px;
+    font-weight: 900; letter-spacing: .5px; font-size: clamp(15px, 3.6vw, 20px);
+    box-shadow: 0 5px 0 rgba(16,48,79,.25);
+  }
+  .pitch { max-width: 560px; margin: 0 auto 22px; font-size: clamp(16px, 3.8vw, 19px); line-height: 1.5; color: var(--ink); }
+  .badges { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; }
+  .badges img { height: 78px; width: auto; display: block; }
+  .soon {
+    display: inline-flex; align-items: center; height: 54px; padding: 0 18px; border-radius: 12px;
+    background: rgba(255,255,255,.75); color: var(--muted); font-weight: 800; font-size: 15px;
+    border: 2px dashed rgba(16,48,79,.25);
+  }
+
+  /* screenshots */
+  .shots { display: flex; gap: 16px; justify-content: flex-start; padding: 26px 0 8px; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .shots img {
+    width: min(260px, 70vw); height: auto; border-radius: 22px; flex: 0 0 auto; scroll-snap-align: center;
+    box-shadow: 0 14px 28px rgba(16,48,79,.28);
+  }
+  .shots img:nth-child(2) { transform: translateY(-10px); }
+  .shots > :first-child { margin-left: auto; } /* centred when it fits, scrollable from the start when not */
+  .shots > :last-child { margin-right: auto; }
+
+  /* features */
+  .features {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px;
+    padding: 26px 0 36px;
+  }
+  .feature {
+    background: var(--card); border-radius: 18px; padding: 18px;
+    box-shadow: 0 8px 18px rgba(16,48,79,.15);
+  }
+  .feature h3 { margin: 0 0 6px; font-size: 18px; }
+  .feature p { margin: 0; color: var(--muted); line-height: 1.45; font-size: 15px; }
+  .emoji { font-size: 26px; display: block; margin-bottom: 6px; }
+
+  /* footer */
+  footer { background: var(--sea-deep); color: #e6f3ff; text-align: center; padding: 26px 16px 34px; }
+  footer img { width: 92px; height: auto; display: block; margin: 0 auto 10px; }
+  footer a { color: #fff; font-weight: 700; }
+  footer .links { margin: 8px 0; display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; }
+  footer small { color: #a9cdf0; }
+  .legal { font-size: 11px; color: #a9cdf0; max-width: 560px; margin: 12px auto 0; line-height: 1.4; }
 </style>
 </head>
 <body>
-  <h1>The Little Guy Games</h1>
-  <p>Makers of <strong>Duckdoku Blast</strong>.</p>
-  <p><a href="/duckdoku-privacy/support/">Support</a> &middot; <a href="/duckdoku-privacy/">Privacy policy</a></p>
+  <header class="hero wrap">
+    <img class="logo" src="img/logo.png" alt="Duckdoku Blast" width="640" height="414">
+    <div class="tagline">SUDOKU MEETS BATTLESHIP</div>
+    <p class="pitch">A fleet of duck-ships is hiding on the grid. Every color block hides <strong>exactly one ship</strong>, and the numbers tell you how many ship cells are in each row and column. Find them all with logic, not luck.</p>
+    <div class="badges">
+      <a href="https://play.google.com/store/apps/details?id=com.jvea.battleduckdoku&amp;utm_source=website&amp;utm_medium=badge" aria-label="Get it on Google Play">
+        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" width="232" height="90">
+      </a>
+      <span class="soon">iPhone: coming soon</span>
+    </div>
+  </header>
+
+  <section class="wrap shots" aria-label="Screenshots">
+    <img src="img/01_board.jpg" alt="A Duckdoku Blast board: find the hidden ships" width="540" height="960" loading="lazy">
+    <img src="img/04_win.jpg" alt="Winning a level: all ducks are aboard" width="540" height="960" loading="lazy">
+    <img src="img/06_collection.jpg" alt="The duck collection" width="540" height="960" loading="lazy">
+  </section>
+
+  <section class="wrap features">
+    <div class="feature"><span class="emoji">🧩</span><h3>Pure logic</h3><p>Every board is solvable without guessing. Three lives, no luck required.</p></div>
+    <div class="feature"><span class="emoji">🌊</span><h3>Endless puzzles</h3><p>50 hand-tuned levels from Beginner to Extreme, then fresh boards forever, plus a Daily Puzzle.</p></div>
+    <div class="feature"><span class="emoji">💣</span><h3>Boosters</h3><p>Stuck? Sonar finds a duck, Bomb clears a 3×3 and Tidal Wave sweeps a whole line.</p></div>
+    <div class="feature"><span class="emoji">🦆</span><h3>Collect ducks</h3><p>Unlock and level up dozens of ducks and ships, and sail a 7-day Quest Voyage.</p></div>
+    <div class="feature"><span class="emoji">✈️</span><h3>Play offline</h3><p>No Wi-Fi needed. Bite-sized rounds that fit any break.</p></div>
+    <div class="feature"><span class="emoji">🎁</span><h3>Free to play</h3><p>Optional purchases and ads; a one-time No Ads pass removes them.</p></div>
+  </section>
+
+  <footer>
+    <img src="img/studio.png" alt="The Little Guy Games" width="160" height="168">
+    <div>Made by <strong>The Little Guy Games</strong></div>
+    <div class="links">
+      <a href="/duckdoku-privacy/support/">Support</a>
+      <a href="/duckdoku-privacy/">Privacy policy</a>
+      <a href="mailto:jvea03@gmail.com">Contact</a>
+    </div>
+    <small>© 2026 The Little Guy Games</small>
+    <p class="legal">Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </footer>
 </body>
 </html>
